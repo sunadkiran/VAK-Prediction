@@ -1,0 +1,90 @@
+THIS IS FOR MACHINE LEARING
+
+
+from sklearn.naive_bayes import GaussianNB
+import pandas as pd
+from sklearn import *
+from sklearn.metrics import accuracy_score
+import numpy as np
+
+data=pd.read_csv('F:/fsmlk/vak.csv')
+df = pd.DataFrame(data)
+
+
+y=df.vak
+x=df.drop('vak',axis=1)
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(x,y, test_size=0.2, random_state=70)
+
+from sklearn.naive_bayes import GaussianNB
+gnb = GaussianNB()
+gnb.fit(X_train,y_train)
+print("Enter the answer in 0-10")
+q1=int(input("enter point for q1 "))
+q2=int(input("enter point for q2"))
+q3=int(input("enter pointvfor q3 "))
+q4=int(input("enter point for q4 "))
+q5=int(input("enter point for q5 "))
+q6=int(input("enter point for q6"))
+q7=int(input("enter point for q7"))
+q8=int(input("enter point for q8"))
+q9=int(input("enter point for q9"))
+pred=gnb.predict([[q1,q2,q3,q4,q5,q6,q7,q8,q9]])
+prob=gnb.predict_proba([[q1,q2,q3,q4,q5,q6,q7,q8,q9]])
+#print("Predicted VAK of given samples is : ",pred)
+if (pred == 0):
+    print("The person belongs to visual")
+elif(pred==1):
+     print("The person belongs to auditory")
+else:
+     print("The person belongs to kenesthetic")
+print("The probability of predicting for v  : ",prob[:,0])
+print("The probability of predicting for a : ",prob[:,1])
+print("The probability of predicting for k  : ",prob[:,2])
+
+-----------------------------------------------------------------------
+FOR GRAPGH
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
+%matplotlib inline
+
+# set jupyter's max row display
+pd.set_option('display.max_row', 1000)
+
+# set jupyter's max column width to 50
+pd.set_option('display.max_columns', 50)
+
+# Load the dataset
+dt = pd.read_csv("F:/fsmlk/vak.csv")
+                 
+ax = dt['vak'].value_counts().plot(kind='bar', figsize=(10,7),
+                                        color="coral", fontsize=13);
+ax.set_alpha(0.8)
+ax.set_title("VAK", fontsize=18)
+ax.set_xlabel("v=0 k=2 a=1",fontsize=15)
+ax.set_ylabel("NUmber of students", fontsize=18);
+ax.set_yticks([0, 5, 10, 15, 20])
+
+# create a list to collect the plt.patches data
+totals = []
+
+# find the values and append to list
+for i in ax.patches:
+    totals.append(i.get_height())
+
+# set individual bar lables using above list
+total = sum(totals)
+
+# set individual bar lables using above list
+for i in ax.patches:
+    # get_x pulls left or right; get_height pushes up or down
+    ax.text(i.get_x()-.03, i.get_height()+.5, \
+            str(round((i.get_height()/total)*100, 2))+'%', fontsize=15,
+                color='dimgrey')
+
+
